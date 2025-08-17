@@ -54,11 +54,16 @@ function structToJson(struct) {
 
 // --- DIALOGFLOW CONFIG ---
 const projectId = 'nomadia-chatbot-hjcj';
-const keyFilename = path.join(__dirname, 'service-account.json');
+
+// Parse the credentials from the environment variable
+const credentialsJson = JSON.parse(process.env.GOOGLE_CREDENTIALS_JSON);
 
 const sessionClient = new dialogflow.SessionsClient({
   projectId,
-  keyFilename,
+  credentials: {
+    private_key: credentialsJson.private_key,
+    client_email: credentialsJson.client_email,
+  },
 });
 
 // --- API ROUTE ---
